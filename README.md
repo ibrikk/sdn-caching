@@ -108,13 +108,14 @@ Generates:
 
 Example:
 
-    python plot_cache_size.py
+    python analysis_plot.ipynb
 
 Each plotting script loads the CSVs and generates:
 
 - hit ratio vs cache size
 - average latency vs cache size
 - p95 latency vs cache size
+- many more
 
 Additional graphs exist for α-sweeps and edge-count sweeps.
 
