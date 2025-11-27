@@ -1,6 +1,3 @@
-You're right! I see the issue - I was using triple backticks inside the markdown code block, which was breaking the formatting. Here's the complete README.md file:
-
-```markdown
 # Edge Caching Simulation (Future Networks Project)
 
 This project simulates a simplified Content Delivery Network (CDN) with multiple edge servers, Zipf-distributed content popularity, and several cache replacement policies (LRU, LFU, Random). The goal is to analyze how cache size, popularity skew, and number of edge caches affect:
@@ -151,4 +148,3 @@ The simulator is built from scratch using Python and includes multiple experimen
 ## 📚 License
 
 Free for academic use.
-```
