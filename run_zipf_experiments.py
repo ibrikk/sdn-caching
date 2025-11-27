@@ -2,7 +2,7 @@ import csv
 from sim import run_sim
 
 alphas = [0.6, 0.8, 1.0, 1.2]
-policies = ["LRU", "LFU", "RANDOM"]
+policies = ["LRU", "LFU", "RANDOM", "NOCACHE"]
 
 with open("results/zipf_results.csv", "w", newline="") as f:
     writer = csv.writer(f)
@@ -10,7 +10,20 @@ with open("results/zipf_results.csv", "w", newline="") as f:
 
     for a in alphas:
         for pol in policies:
-            metrics = run_sim(
+            if pol == "NOCACHE":
+               metrics = run_sim(
+                n_contents=1000,
+                n_edges=4,
+                capacity=0,
+                alpha=a,
+                policy="LRU",
+                n_requests=200_000,
+                lat_edge_ms=10,
+                lat_origin_ms=100,
+                seed=42
+            ) 
+            else:
+                metrics = run_sim(
                 n_contents=1000,
                 n_edges=4,
                 capacity=100,
