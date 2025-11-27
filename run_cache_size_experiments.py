@@ -2,7 +2,7 @@ import csv
 from sim import run_sim
 
 cache_sizes = [20, 50, 100, 200]
-policies = ["LRU", "LFU", "RANDOM"]
+policies = ["LRU", "LFU", "RANDOM", "NOCACHE"]
 
 with open("results/cache_size_results.csv", "w", newline="") as f:
     writer = csv.writer(f)
@@ -10,6 +10,20 @@ with open("results/cache_size_results.csv", "w", newline="") as f:
 
     for C in cache_sizes:
         for pol in policies:
+            if pol == "NOCACHE":
+                C = 0   # override capacity
+                # no eviction, no insert
+                metrics = run_sim(
+                    n_contents=1000,
+                    n_edges=4,
+                    capacity=0,
+                    alpha=1.0,
+                    policy="NOCACHE",
+                    n_requests=200000,
+                    lat_edge_ms=10,
+                    lat_origin_ms=100,
+                    seed=42
+                )
             metrics = run_sim(
                 n_contents=1000,
                 n_edges=4,
