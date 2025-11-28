@@ -256,7 +256,7 @@ if __name__ == "__main__":
         "alpha": 1.0, #popularity skew α low (0.6 or 0.8) → popularity is flat → caching works worse 
                       # α high (1.0, 1.2) → few videos dominate → caching works great 
                       # alpha=1.0 is a very typical real-world Zipf skew for content delivery.
-        "policy": "LRU",
+        "policy": "RANDOM",
         "n_requests": 100_000, # video views are simulated
         "lat_edge_ms": 10.0, # Latency if the video is found in the edge cache. Typically 5-20ms
         "lat_origin_ms": 100.0, # Latency if the video must be fetched from the origin
