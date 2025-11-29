@@ -2,7 +2,7 @@ import csv
 from sim import run_sim
 
 cache_sizes = [20, 50, 100, 200]
-policies = ["LRU", "LFU", "RANDOM", "NOCACHE"]
+policies = ["LRU", "LFU", "FIFO", "RANDOM", "NOCACHE"]
 
 with open("results/cache_size_results.csv", "w", newline="") as f:
     writer = csv.writer(f)

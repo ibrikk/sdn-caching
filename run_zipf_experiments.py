@@ -2,7 +2,7 @@ import csv
 from sim import run_sim
 
 alphas = [0.6, 0.8, 1.0, 1.2]
-policies = ["LRU", "LFU", "RANDOM", "NOCACHE"]
+policies = ["LRU", "LFU", "FIFO", "RANDOM", "NOCACHE"]
 
 with open("results/zipf_results.csv", "w", newline="") as f:
     writer = csv.writer(f)

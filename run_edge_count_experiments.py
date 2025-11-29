@@ -2,7 +2,7 @@ import csv
 from sim import run_sim
 
 edge_counts = [1, 2, 4, 8]
-policies = ["NOCACHE", "LRU", "LFU", "RANDOM"]
+policies = ["NOCACHE", "LRU", "LFU", "FIFO", "RANDOM"]
 
 with open("results/edge_count_results.csv", "w", newline="") as f:
     writer = csv.writer(f)

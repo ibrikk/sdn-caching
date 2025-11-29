@@ -49,7 +49,7 @@ def sample_zipf(contents: List[int], cdf: List[float]) -> int:
 @dataclass
 class EdgeCache:
     capacity: int
-    policy: str  # "LRU", "LFU", "Random"
+    policy: str  # "LRU", "LFU", "Random", "FIFO"
 
     # Internal state
     cache: set = field(default_factory=set, init=False)
@@ -90,7 +90,7 @@ class EdgeCache:
             # Increase frequency count
             self.freq[content_id] = self.freq.get(content_id, 0) + 1
         else:
-            # Random policy has no state to update on hit
+            # Random and FIFO policies have no state to update on hit
             pass
 
     def _insert_on_miss(self, content_id: int) -> None:
@@ -109,7 +109,7 @@ class EdgeCache:
     def _add_new_content(self, content_id: int) -> None:
         self.cache.add(content_id)
 
-        if self.policy.upper() == "LRU":
+        if self.policy.upper() in {"LRU", "FIFO"}:
             self.lru_order[content_id] = None
             self.lru_order.move_to_end(content_id, last=True)
         elif self.policy.upper() == "LFU":
@@ -125,7 +125,7 @@ class EdgeCache:
 
         policy = self.policy.upper()
 
-        if policy == "LRU":
+        if policy in {"LRU", "FIFO"}:
             # Evict least recently used (leftmost)
             victim, _ = self.lru_order.popitem(last=False)
             self.cache.remove(victim)
@@ -263,6 +263,25 @@ if __name__ == "__main__":
         "seed": 42,
     }
     
+    metrics = run_sim(**params)
+    print("Params:", params)
+    print("Metrics:", metrics)
+    
+    #FIFO
+    params = {
+        "n_contents": 1000,
+        "n_edges": 4,
+        "capacity": 100,
+        "alpha": 1.0, #popularity skew α low (0.6 or 0.8) → popularity is flat → caching works worse 
+                      # α high (1.0, 1.2) → few videos dominate → caching works great 
+                      # alpha=1.0 is a very typical real-world Zipf skew for content delivery.
+        "policy": "FIFO",
+        "n_requests": 100_000, # video views are simulated
+        "lat_edge_ms": 10.0, # Latency if the video is found in the edge cache. Typically 5-20ms
+        "lat_origin_ms": 100.0, # Latency if the video must be fetched from the origin
+        "seed": 42,
+    }
+
     metrics = run_sim(**params)
     print("Params:", params)
     print("Metrics:", metrics)
